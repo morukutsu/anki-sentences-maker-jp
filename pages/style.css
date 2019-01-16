@@ -1,0 +1,126 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: "PT Sans", Helvetica, Arial, sans-serif;
+    text-rendering: optimizeLegibility;
+    background-color: #f0f0f0;
+    font-feature-settings: "kern", "liga", "clig", "calt";
+    font-kerning: normal;
+    color: #333333;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+article p a {
+    text-decoration: underline;
+    color: rgb(11, 95, 255);
+}
+
+article p {
+    font-weight: 400;
+    font-size: 1em;
+    line-height: 1.75rem;
+    word-wrap: break-word;
+}
+
+h1 {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    padding: 0;
+    margin-bottom: 1.75rem;
+    color: inherit;
+    font-weight: 100;
+    font-size: 2.5rem;
+    line-height: 1.1;
+    color: #333333;
+}
+
+.sidebar {
+    width: 320px;
+    height: 100%;
+    position: fixed;
+}
+
+.inner {
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 100px;
+    margin-left: 360px;
+}
+
+.custom-edit-button {
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: #2cb1f4;
+    color: #f0f0f0;
+    font-size: 12px;
+    width: 54px;
+    height: 24px;
+}
+
+.custom-save-button {
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: #7bc528;
+    color: #f0f0f0;
+    font-size: 12px;
+    width: 54px;
+    height: 24px;
+}
+
+.custom-cancel-button {
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    background-color: #fc7322;
+    color: #f0f0f0;
+    font-size: 12px;
+    width: 54px;
+    height: 24px;
+    margin-left: 5px;
+}
+
+@media only screen and (max-device-width: 768px) {
+    .sidebar {
+        width: 220px;
+        height: 100%;
+        position: fixed;
+    }
+
+    .inner {
+        padding-left: 10px;
+        padding-right: 20px;
+        padding-top: 100px;
+        margin-left: 260px;
+    }
+}
+
+@media only screen and (max-device-width: 480px) {
+    .sidebar {
+        width: auto;
+        height: 400px;
+        position: relative;
+    }
+
+    .inner {
+        margin-left: 0px;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 20px;
+    }
+}
+
+#__next {
+    height: 100vh;
+}
