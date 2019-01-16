@@ -41,6 +41,11 @@ h1 {
     color: #333333;
 }
 
+h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 .sidebar {
     width: 320px;
     height: 100%;

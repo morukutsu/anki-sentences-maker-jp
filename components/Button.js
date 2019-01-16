@@ -5,7 +5,8 @@ import useHover from "../hooks/useHover";
 const colors = {
     neutral: "#2CB1F4",
     positive: "#7BC528",
-    negative: "#FC7322"
+    negative: "#FC7322",
+    light: "#AAAAAA"
 };
 
 export default props => {
@@ -46,7 +47,7 @@ export default props => {
 
 const styles = {
     container: {
-        display: "block",
+        display: "inline-block",
         textAlign: "center",
         color: "#f0f0f0",
         cursor: "pointer",
