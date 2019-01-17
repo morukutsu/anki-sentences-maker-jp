@@ -14,6 +14,7 @@
         "@weco/next-plugin-transpile-modules": "0.0.2",
         "@zeit/next-css": "^1.0.1",
         "anki-apkg": "git@github.com:morukutsu/anki-apkg.git",
+        "aws-sdk": "^2.389.0",
         "isomorphic-unfetch": "^3.0.0",
         "next": "^7.0.2",
         "react": "16.7.0-alpha.2",

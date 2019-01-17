@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
         }
     });
 
-    const cards = Database.getAllCards();
+    const cards = await Database.getAllCards();
     for (let card of cards) {
         apkg.addCard({
             timestamp: +new Date(), // create time
