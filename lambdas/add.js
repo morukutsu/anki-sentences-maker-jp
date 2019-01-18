@@ -1,3 +1,5 @@
+const SHA256 = require("crypto-js/sha256");
+
 const Database = require("./api/Database");
 
 const getRequestBody = req => {
@@ -17,11 +19,14 @@ module.exports = async (req, res) => {
         const data = await getRequestBody(req);
         const result = JSON.parse(data);
 
-        //Database.addCard(data);
+        result.id = SHA256(
+            result.english + result.kanji + result.kana
+        ).toString();
+        const added = await Database.addCard(result);
 
-        res.json({});
+        res.json({ added: added });
     } catch (e) {
         console.log(e);
-        res.json({ result: "error" });
+        res.json({ added: false });
     }
 };

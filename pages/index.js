@@ -51,10 +51,20 @@ const dataAddCard = async card => {
             body: JSON.stringify(card)
         });
         const json = await res.json();
-        return json;
+        return json.added;
     } catch (e) {
         console.error(e);
-        return {};
+        return false;
+    }
+};
+
+const dataRemoveCard = async card => {
+    let uri = FETCH_URI + "/remove/" + card.id;
+
+    try {
+        await fetch(uri);
+    } catch (e) {
+        console.error(e);
     }
 };
 
@@ -104,13 +114,24 @@ const Page = props => {
     const [searchCards, setSearchCards] = useState([]);
     const [added, setAdded] = useState({});
 
-    const onPageChange = async page => {
-        const start = page * ITEMS_PER_PAGE;
+    const reloadCards = async newPage => {
+        if (newPage == undefined) newPage = page;
+
+        const start = newPage * ITEMS_PER_PAGE;
         const end = start + ITEMS_PER_PAGE;
         const data = await dataFetchCards(start, end);
         setCards(data.cards);
         setCount(data.count);
-        setPage(page);
+    };
+
+    const onChangeMode = async mode => {
+        if (mode == 0) await reloadCards();
+        setMode(mode);
+    };
+
+    const onPageChange = async newPage => {
+        await reloadCards(newPage);
+        setPage(newPage);
     };
 
     const onSearch = async () => {
@@ -119,16 +140,31 @@ const Page = props => {
         setAdded({});
     };
 
-    const onAdd = (card, index) => {
-        dataAddCard(card);
+    const onAdd = async (card, index) => {
+        if (added[index]) return;
 
+        const isAdded = await dataAddCard(card);
         added[index] = true;
         setAdded(added);
+
+        // The card was not already in DB
+        if (isAdded) setCount(prev => prev + 1);
+    };
+
+    const onRemove = async (card, index) => {
+        await dataRemoveCard(card);
+        await reloadCards();
     };
 
     const renderMyCards = () => {
         const items = cards.map((e, i) => (
-            <Item color="light" text="Remove" key={i} {...e} />
+            <Item
+                color="light"
+                text="Remove"
+                key={e.id}
+                {...e}
+                onClick={() => onRemove(e, i)}
+            />
         ));
 
         return (
@@ -187,10 +223,10 @@ const Page = props => {
                     <h2>Anki Sentences Deck Maker</h2>
                     <h3>{count} cards</h3>
                     <div style={styles.topButtons}>
-                        <Button color="neutral" onClick={() => setMode(0)}>
+                        <Button color="neutral" onClick={() => onChangeMode(0)}>
                             My cards
                         </Button>
-                        <Button color="neutral" onClick={() => setMode(1)}>
+                        <Button color="neutral" onClick={() => onChangeMode(1)}>
                             Find...
                         </Button>
                     </div>

@@ -2,8 +2,7 @@ const { APKG } = require("anki-apkg");
 const Database = require("./api/Database");
 
 module.exports = async (req, res) => {
-    const id = 1370591359;
-    const name = "VocabularyBuilder";
+    const name = "SentencesDeck";
     const fields = ["Id", "Semantic1", "Semantic1Reading", "Semantic1English"];
     const template = {
         question: `<div style="font-family: MS Mincho, Arial; font-size: 30px;">{{Semantic1}}</div><hr/>
