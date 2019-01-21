@@ -1,6 +1,12 @@
 import fetch from "isomorphic-unfetch";
 
-const FETCH_URI = "http://localhost:3001";
+let FETCH_URI;
+
+if (process.env.NODE_ENV === "production") {
+    FETCH_URI = "";
+} else {
+    FETCH_URI = "http://localhost:3001";
+}
 
 const dataFetchCards = async (start, end) => {
     let uri;

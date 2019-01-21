@@ -1,0 +1,19 @@
+{
+    "version": 2,
+    "builds": [
+        { "src": "next.config.js", "use": "@now/next" },
+        { "src": "/lambdas/*.js", "use": "@now/node" }
+    ],
+    "routes": [
+        { "src": "/add", "methods": ["POST"], "dest": "/add.js" },
+        { "src": "/list", "dest": "/list.js" },
+        { "src": "/remove", "dest": "/remove.js" },
+        { "src": "/save", "dest": "/save.js" },
+        { "src": "/search", "dest": "/search.js" }
+    ],
+    "regions": ["all"],
+    "env": {
+        "ACCESS_KEY_ID": "@access-key-id",
+        "SECRET_ACCESS_KEY": "@secret-access-key"
+    }
+}

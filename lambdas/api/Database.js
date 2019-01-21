@@ -1,6 +1,16 @@
 const AWS = require("aws-sdk");
 
-AWS.config.loadFromPath("./aws-config.json");
+console.log(process.env.NODE_ENV);
+
+if (process.env.NODE_ENV === "production") {
+    AWS.config = new AWS.Config();
+    AWS.config.accessKeyId = process.env.ACCESS_KEY_ID;
+    AWS.config.secretAccessKey = process.env.SECRET_ACCESS_KEY;
+    AWS.config.region = "eu-west-1";
+} else {
+    AWS.config.loadFromPath("./aws-config.json");
+}
+
 const ddb = new AWS.DynamoDB({ apiVersion: "2012-10-08" });
 
 const getCards = async (start, end) => {
