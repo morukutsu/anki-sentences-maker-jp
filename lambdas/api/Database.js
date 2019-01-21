@@ -1,6 +1,5 @@
 const AWS = require("aws-sdk");
 
-// Load the AWS SDK for Node.js
 AWS.config.loadFromPath("./aws-config.json");
 const ddb = new AWS.DynamoDB({ apiVersion: "2012-10-08" });
 

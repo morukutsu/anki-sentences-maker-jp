@@ -1,72 +1,14 @@
 import Head from "next/head";
 import React, { Component, useState, useRef, useEffect } from "react";
-import fetch from "isomorphic-unfetch";
 
 import Button from "../components/Button";
-
-const FETCH_URI = "http://localhost:3001";
-
-const dataFetchCards = async (start, end) => {
-    let uri;
-
-    if (start != undefined && end != undefined) {
-        uri = FETCH_URI + "/list/" + start + "/" + end;
-    } else {
-        uri = FETCH_URI + "/list";
-    }
-
-    try {
-        const res = await fetch(uri);
-        const json = await res.json();
-        return json;
-    } catch (e) {
-        console.error(e);
-        return {};
-    }
-};
-
-const dataSearchCards = async string => {
-    let uri = FETCH_URI + "/search/" + string;
-
-    try {
-        const res = await fetch(uri);
-        const json = await res.json();
-        return json;
-    } catch (e) {
-        console.error(e);
-        return {};
-    }
-};
-
-const dataAddCard = async card => {
-    let uri = FETCH_URI + "/add";
-
-    try {
-        const res = await fetch(uri, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(card)
-        });
-        const json = await res.json();
-        return json.added;
-    } catch (e) {
-        console.error(e);
-        return false;
-    }
-};
-
-const dataRemoveCard = async card => {
-    let uri = FETCH_URI + "/remove/" + card.id;
-
-    try {
-        await fetch(uri);
-    } catch (e) {
-        console.error(e);
-    }
-};
+import {
+    dataFetchCards,
+    dataSearchCards,
+    dataAddCard,
+    dataRemoveCard,
+    FETCH_URI
+} from "../datafetch/datafetch";
 
 const Item = props => {
     return (
@@ -88,7 +30,8 @@ const Pagination = props => {
     for (let i = 0; i < pagesCount; i++) items.push(i + 1);
 
     const elems = items.map((e, i) => {
-        let currentPageStyle = props.currentPage == i ? styles.currentPage : {};
+        const currentPageStyle =
+            props.currentPage == i ? styles.currentPage : {};
         return (
             <a
                 key={i}
@@ -156,7 +99,7 @@ const Page = props => {
         await reloadCards();
     };
 
-    const renderMyCards = () => {
+    const MyCards = props => {
         const items = cards.map((e, i) => (
             <Item
                 color="light"
@@ -180,7 +123,7 @@ const Page = props => {
         );
     };
 
-    const renderSearch = () => {
+    const Search = props => {
         const items = searchCards.map((e, i) => (
             <Item
                 color={added[i] ? "light" : "positive"}
@@ -231,7 +174,7 @@ const Page = props => {
                         </Button>
                     </div>
                     <div style={styles.cards}>
-                        {mode ? renderSearch() : renderMyCards()}
+                        {mode ? <Search /> : <MyCards />}
                     </div>
                     <Button color="positive" href={FETCH_URI + "/save"}>
                         Save to Anki
