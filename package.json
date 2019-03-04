@@ -18,9 +18,9 @@
         "crypto-js": "^3.1.9-1",
         "isomorphic-unfetch": "^3.0.0",
         "next": "^7.0.2",
-        "react": "16.7.0-alpha.2",
-        "react-dom": "16.7.0-alpha.2",
-        "react-spring": "^7.2.8",
+        "react": "^16.8.3",
+        "react-dom": "^16.8.3",
+        "react-spring": "^7.2.11",
         "unofficial-jisho-api": "^1.1.3"
     },
     "devDependencies": {
