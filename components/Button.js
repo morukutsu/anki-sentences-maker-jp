@@ -1,5 +1,5 @@
 import React, { Component, useState, useRef, useEffect } from "react";
-import { useSpring, animated } from "react-spring/hooks";
+import { useSpring, animated } from "react-spring";
 import useHover from "../hooks/useHover";
 
 const colors = {

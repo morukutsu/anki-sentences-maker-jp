@@ -46,6 +46,49 @@ const Pagination = props => {
     return <div style={styles.pagination}>{elems}</div>;
 };
 
+const Search = props => {
+    const searchCards = props.searchCards;
+    const added = props.added;
+    const onAdd = props.onAdd;
+    const onSearch = props.onSearch;
+
+    const [searchString, setSearchString] = useState("");
+
+    const items = searchCards.map((e, i) => (
+        <Item
+            color={added[i] ? "light" : "positive"}
+            text={added[i] ? "Added" : "Add"}
+            key={i}
+            {...e}
+            onClick={() => onAdd(e, i)}
+        />
+    ));
+
+    return (
+        <div>
+            <div>
+                <input
+                    style={styles.input}
+                    type="text"
+                    placeholder="Type in vocabulary, kanji..."
+                    value={searchString}
+                    onChange={e => setSearchString(e.target.value)}
+                />
+                <Button
+                    color="neutral"
+                    size="small"
+                    onClick={() => onSearch(searchString)}
+                >
+                    Search
+                </Button>
+            </div>
+            <div>
+                <div>{items}</div>
+            </div>
+        </div>
+    );
+};
+
 const ITEMS_PER_PAGE = 5;
 
 const Page = props => {
@@ -53,7 +96,6 @@ const Page = props => {
     const [cards, setCards] = useState(props.cards);
     const [count, setCount] = useState(props.count);
     const [mode, setMode] = useState(0);
-    const [searchString, setSearchString] = useState("");
     const [searchCards, setSearchCards] = useState([]);
     const [added, setAdded] = useState({});
 
@@ -77,8 +119,8 @@ const Page = props => {
         setPage(newPage);
     };
 
-    const onSearch = async () => {
-        const data = await dataSearchCards(searchString);
+    const onSearch = async str => {
+        const data = await dataSearchCards(str);
         setSearchCards(data);
         setAdded({});
     };
@@ -123,42 +165,6 @@ const Page = props => {
         );
     };
 
-    const Search = props => {
-        const items = searchCards.map((e, i) => (
-            <Item
-                color={added[i] ? "light" : "positive"}
-                text={added[i] ? "Added" : "Add"}
-                key={i}
-                {...e}
-                onClick={() => onAdd(e, i)}
-            />
-        ));
-
-        return (
-            <div>
-                <div>
-                    <input
-                        style={styles.input}
-                        type="text"
-                        placeholder="Type in vocabulary, kanji..."
-                        value={searchString}
-                        onChange={e => setSearchString(e.target.value)}
-                    />
-                    <Button
-                        color="neutral"
-                        size="small"
-                        onClick={() => onSearch()}
-                    >
-                        Search
-                    </Button>
-                </div>
-                <div>
-                    <div>{items}</div>
-                </div>
-            </div>
-        );
-    };
-
     return (
         <div>
             <section style={styles.page}>
@@ -174,7 +180,16 @@ const Page = props => {
                         </Button>
                     </div>
                     <div style={styles.cards}>
-                        {mode ? <Search /> : <MyCards />}
+                        {mode ? (
+                            <Search
+                                searchCards={searchCards}
+                                added={added}
+                                onAdd={onAdd}
+                                onSearch={onSearch}
+                            />
+                        ) : (
+                            <MyCards />
+                        )}
                     </div>
                     <Button color="positive" href={FETCH_URI + "/save"}>
                         Save to Anki
