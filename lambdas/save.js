@@ -3,7 +3,7 @@ const Database = require("./api/Database");
 
 module.exports = async (req, res) => {
     const name = "SentencesDeck";
-    const fields = ["Id", "Semantic1", "Semantic1Reading", "Semantic1English"];
+    const fields = ["Semantic1", "Semantic1Reading", "Semantic1English"];
     const template = {
         question: `<div style="font-family: MS Mincho, Arial; font-size: 30px;">{{Semantic1}}</div><hr/>
         <div style="font-family: MS Mincho, Arial; font-size: 30px;">{{Semantic1Reading}}</div>`,
@@ -25,11 +25,13 @@ module.exports = async (req, res) => {
     });
 
     const cards = await Database.getAllCards();
+    let index = 0;
     for (let card of cards) {
         apkg.addCard({
-            timestamp: +new Date(), // create time
-            content: [0, card.kanji, card.kana, card.english]
+            id: index,
+            content: [card.kanji, card.kana, card.english]
         });
+        index++;
     }
 
     const filename = "deck.apkg";
