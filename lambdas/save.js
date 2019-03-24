@@ -25,13 +25,12 @@ module.exports = async (req, res) => {
     });
 
     const cards = await Database.getAllCards();
-    let index = 0;
     for (let card of cards) {
+        const id = parseInt(card.id.substr(0, 8), 16);
         apkg.addCard({
-            id: index,
+            id: id,
             content: [card.kanji, card.kana, card.english]
         });
-        index++;
     }
 
     const filename = "deck.apkg";
