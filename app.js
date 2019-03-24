@@ -13,7 +13,7 @@ const remove = require("./lambdas/remove");
 
 app.get("/search/:token", search);
 app.get("/list/:start?/:end?", list);
-app.get("/save", save);
+app.post("/save", save);
 app.post("/add", add);
 app.get("/remove/:id", remove);
 

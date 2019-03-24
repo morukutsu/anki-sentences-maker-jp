@@ -1,7 +1,25 @@
 const { APKG } = require("anki-apkg");
 const Database = require("./api/Database");
 
+const getRequestBody = req => {
+    return new Promise((resolve, reject) => {
+        let body = "";
+        req.on("data", chunk => {
+            body += chunk;
+        });
+        req.on("end", () => {
+            resolve(body);
+        });
+    });
+};
+
 module.exports = async (req, res) => {
+    // Receive the full DB content form the post request
+    const data = await getRequestBody(req);
+    const db = JSON.parse(data);
+    const cards = db.cards;
+
+    // Generates the anki deck
     const name = "SentencesDeck";
     const fields = ["Semantic1", "Semantic1Reading", "Semantic1English"];
     const template = {
@@ -24,7 +42,6 @@ module.exports = async (req, res) => {
         }
     });
 
-    const cards = await Database.getAllCards();
     for (let card of cards) {
         const id = parseInt(card.id.substr(0, 8), 16);
         apkg.addCard({

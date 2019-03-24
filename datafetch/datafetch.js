@@ -23,7 +23,7 @@ const dataFetchCards = async (start, end) => {
         return json;
     } catch (e) {
         console.error(e);
-        return {};
+        return { cards: [], count: 0 };
     }
 };
 
@@ -36,7 +36,7 @@ const dataSearchCards = async string => {
         return json;
     } catch (e) {
         console.error(e);
-        return {};
+        return [];
     }
 };
 

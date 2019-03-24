@@ -6,10 +6,7 @@
         { "src": "/lambdas/*.js", "use": "@now/node" }
     ],
     "routes": [
-        { "src": "/add", "methods": ["POST"], "dest": "/add.js" },
-        { "src": "/list", "dest": "/list.js" },
-        { "src": "/remove", "dest": "/remove.js" },
-        { "src": "/save", "dest": "/save.js" },
+        { "src": "/save", "methods": ["POST"], "dest": "/save.js" },
         { "src": "/search", "dest": "/search.js" }
     ],
     "regions": ["all"],

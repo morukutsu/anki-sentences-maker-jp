@@ -8,7 +8,7 @@ import {
     dataAddCard,
     dataRemoveCard,
     FETCH_URI
-} from "../datafetch/datafetch";
+} from "../datafetch/datafetch_local";
 
 const Item = props => {
     return (
@@ -109,6 +109,11 @@ const Page = props => {
         setCount(data.count);
     };
 
+    // Reload cards on first client side page mount
+    useEffect(() => {
+        reloadCards();
+    }, []);
+
     const onChangeMode = async mode => {
         if (mode == 0) await reloadCards();
         setMode(mode);
@@ -140,6 +145,10 @@ const Page = props => {
         await dataRemoveCard(card);
         await reloadCards();
     };
+
+    const onDownload = () => {
+         dataDownloadDeck(window.localStorage.getItem("db"), FETCH_URI + "/save");
+    }
 
     const MyCards = props => {
         const items = cards.map((e, i) => (
@@ -191,7 +200,7 @@ const Page = props => {
                             <MyCards />
                         )}
                     </div>
-                    <Button color="positive" href={FETCH_URI + "/save"}>
+                    <Button color="positive" onClick={() => onDownload() }>
                         Save to Anki
                     </Button>
                 </div>
@@ -201,7 +210,43 @@ const Page = props => {
 };
 
 Page.getInitialProps = async ({ req }) => {
-    return dataFetchCards();
+    return { cards: [], count: 0 }
+};
+
+const dataDownloadDeck = (content, uri) => {
+    var request = new XMLHttpRequest();
+    request.open("POST", uri, true);
+    request.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded; charset=UTF-8"
+    );
+    request.responseType = "blob";
+
+    request.onload = function() {
+        // Only handle status code 200
+        if (request.status === 200) {
+            // Try to find out the filename from the content disposition `filename` value
+            var filename = "deck.apkg";
+
+            // The actual download
+            var blob = new Blob([request.response], {
+                type: "application/zip"
+            });
+            var link = document.createElement("a");
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+        }
+
+        // some error handling should be done here...
+    };
+
+    request.send(content);
 };
 
 const styles = {
