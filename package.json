@@ -17,10 +17,10 @@
         "aws-sdk": "^2.389.0",
         "crypto-js": "^3.1.9-1",
         "isomorphic-unfetch": "^3.0.0",
-        "next": "^7.0.2",
+        "next": "^8.0.3",
         "react": "^16.8.3",
         "react-dom": "^16.8.3",
-        "react-spring": "^8.0.10",
+        "react-spring": "^8.0.18",
         "unofficial-jisho-api": "^1.1.3"
     },
     "devDependencies": {
