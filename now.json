@@ -3,7 +3,8 @@
     "version": 2,
     "builds": [
         { "src": "next.config.js", "use": "@now/next" },
-        { "src": "/lambdas/*.js", "use": "@now/node" }
+        { "src": "/lambdas/save.js", "use": "@now/node" },
+        { "src": "/lambdas/search.js", "use": "@now/node" }
     ],
     "routes": [
         { "src": "/save", "methods": ["POST"], "dest": "/save.js" },

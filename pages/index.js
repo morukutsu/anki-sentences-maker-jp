@@ -6,8 +6,7 @@ import {
     dataFetchCards,
     dataSearchCards,
     dataAddCard,
-    dataRemoveCard,
-    FETCH_URI
+    dataRemoveCard
 } from "../datafetch/datafetch_local";
 
 const Item = props => {
@@ -125,7 +124,7 @@ const Page = props => {
     };
 
     const onSearch = async str => {
-        const data = await dataSearchCards(str);
+        const data = await dataSearchCards(props.baseUri, str);
         setSearchCards(data);
         setAdded({});
     };
@@ -147,7 +146,7 @@ const Page = props => {
     };
 
     const onDownload = () => {
-         dataDownloadDeck(window.localStorage.getItem("db"), FETCH_URI + "/save");
+         dataDownloadDeck(window.localStorage.getItem("db"), props.baseUrl + "/save");
     }
 
     const MyCards = props => {
@@ -210,7 +209,13 @@ const Page = props => {
 };
 
 Page.getInitialProps = async ({ req }) => {
-    return { cards: [], count: 0 }
+    let baseUrl = "";
+    if (!process.browser) {
+        const protocol = req.headers['x-forwarded-proto'] || 'http';
+        baseUrl = req ? `${protocol}://${req.headers.host}` : '';
+    }
+
+    return { baseUrl: baseUrl, cards: [], count: 0 }
 };
 
 const dataDownloadDeck = (content, uri) => {
