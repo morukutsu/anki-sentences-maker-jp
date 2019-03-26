@@ -1,5 +1,5 @@
-import * as Database from "../lambdas/api/Database_localstorage"
-import SHA256 from "crypto-js/sha256"
+import * as Database from "../lambdas/api/Database_localstorage";
+import SHA256 from "crypto-js/sha256";
 
 const dataFetchCards = async (start, end) => {
     const cards = await Database.getCards(start, end);
@@ -12,9 +12,7 @@ const dataFetchCards = async (start, end) => {
 };
 
 const dataAddCard = async card => {
-    card.id = SHA256(
-        card.english + card.kanji + card.kana
-    ).toString();
+    card.id = SHA256(card.english + card.kanji + card.kana).toString();
 
     const added = await Database.addCard(card);
 
@@ -25,8 +23,8 @@ const dataRemoveCard = async card => {
     await Database.removeCard(card.id);
 };
 
-const dataSearchCards = async (baseUri, string) => {
-    let uri = baseUri + "/search/" + string;
+const dataSearchCards = async (baseUrl, string) => {
+    let uri = baseUrl + "/search/" + string;
 
     try {
         const res = await fetch(uri);
@@ -38,9 +36,4 @@ const dataSearchCards = async (baseUri, string) => {
     }
 };
 
-export {
-    dataFetchCards,
-    dataSearchCards,
-    dataAddCard,
-    dataRemoveCard
-};
+export { dataFetchCards, dataSearchCards, dataAddCard, dataRemoveCard };

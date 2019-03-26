@@ -7,12 +7,11 @@
         { "src": "/lambdas/search.js", "use": "@now/node" }
     ],
     "routes": [
-        { "src": "/save", "methods": ["POST"], "dest": "/save.js" },
-        { "src": "/search", "dest": "/search.js" }
+        { "src": "/save", "methods": ["POST"], "dest": "/lambdas/save.js" },
+        {
+            "src": "/search/(.*)",
+            "dest": "/lambdas/search.js?token=$1"
+        }
     ],
-    "regions": ["all"],
-    "env": {
-        "ACCESS_KEY_ID": "@access-key-id",
-        "SECRET_ACCESS_KEY": "@secret-access-key"
-    }
+    "regions": ["all"]
 }

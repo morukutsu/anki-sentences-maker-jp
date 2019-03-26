@@ -124,7 +124,7 @@ const Page = props => {
     };
 
     const onSearch = async str => {
-        const data = await dataSearchCards(props.baseUri, str);
+        const data = await dataSearchCards(props.baseUrl, str);
         setSearchCards(data);
         setAdded({});
     };
@@ -146,8 +146,11 @@ const Page = props => {
     };
 
     const onDownload = () => {
-         dataDownloadDeck(window.localStorage.getItem("db"), props.baseUrl + "/save");
-    }
+        dataDownloadDeck(
+            window.localStorage.getItem("db"),
+            props.baseUrl + "/save"
+        );
+    };
 
     const MyCards = props => {
         const items = cards.map((e, i) => (
@@ -199,7 +202,7 @@ const Page = props => {
                             <MyCards />
                         )}
                     </div>
-                    <Button color="positive" onClick={() => onDownload() }>
+                    <Button color="positive" onClick={() => onDownload()}>
                         Save to Anki
                     </Button>
                 </div>
@@ -211,11 +214,11 @@ const Page = props => {
 Page.getInitialProps = async ({ req }) => {
     let baseUrl = "";
     if (!process.browser) {
-        const protocol = req.headers['x-forwarded-proto'] || 'http';
-        baseUrl = req ? `${protocol}://${req.headers.host}` : '';
+        const protocol = req.headers["x-forwarded-proto"] || "http";
+        baseUrl = req ? `${protocol}://${req.headers.host}` : "";
     }
 
-    return { baseUrl: baseUrl, cards: [], count: 0 }
+    return { baseUrl: baseUrl, cards: [], count: 0 };
 };
 
 const dataDownloadDeck = (content, uri) => {
