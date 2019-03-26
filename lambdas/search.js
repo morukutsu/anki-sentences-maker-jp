@@ -4,20 +4,18 @@ const { parse } = require("url");
 module.exports = async (req, res) => {
     const { query } = parse(req.url, true);
     const { token } = query;
-    console.log(token);
-    console.log(query);
     const jisho = new jishoApi();
 
     try {
         const result = await jisho.searchForExamples(token);
         if (!result) {
-            res.json({});
+            res.end(JSON.stringify({}));
             return;
         }
-
-        res.json(result.results);
+        console.log(result);
+        res.end(JSON.stringify(result.results));
     } catch (e) {
         console.log(e);
-        res.json({});
+        res.end(JSON.stringify({}));
     }
 };
