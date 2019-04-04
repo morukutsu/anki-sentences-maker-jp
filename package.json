@@ -16,6 +16,7 @@
         "@zeit/next-css": "^1.0.1",
         "anki-apkg": "git+https://github.com/morukutsu/anki-apkg.git",
         "crypto-js": "^3.1.9-1",
+        "dotenv": "^7.0.0",
         "isomorphic-unfetch": "^3.0.0",
         "next": "^8.0.3",
         "react": "^16.8.5",

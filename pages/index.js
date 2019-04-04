@@ -82,6 +82,7 @@ const Search = props => {
                 </Button>
             </div>
             <div>
+                <div>{items.length} results</div>
                 <div>{items}</div>
             </div>
         </div>
@@ -202,9 +203,11 @@ const Page = props => {
                             <MyCards />
                         )}
                     </div>
-                    <Button color="positive" onClick={() => onDownload()}>
-                        Save to Anki
-                    </Button>
+                    {!mode ? (
+                        <Button color="positive" onClick={() => onDownload()}>
+                            Export to Anki
+                        </Button>
+                    ) : null}
                 </div>
             </section>
         </div>
@@ -213,9 +216,15 @@ const Page = props => {
 
 Page.getInitialProps = async ({ req }) => {
     let baseUrl = "";
+
     if (!process.browser) {
         const protocol = req.headers["x-forwarded-proto"] || "http";
-        baseUrl = req ? `${protocol}://${req.headers.host}` : "";
+        const host = req.headers.host;
+        if (host.startsWith("localhost")) {
+            baseUrl = "http://localhost:3001";
+        } else {
+            baseUrl = req ? `${protocol}://${req.headers.host}` : "";
+        }
     }
 
     return { baseUrl: baseUrl, cards: [], count: 0 };
